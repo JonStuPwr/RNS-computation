@@ -39,35 +39,29 @@ def dec_int_to_bin_str(decimal):
     return binary
 
 
-def count_modulo():
-    # print(9223372036854775807 % 47)
-    # print(gmpy2.f_mod(gmpy2.mpz(9223372036854775807), gmpy2.mpz(47)))
-
-    # x = "1011001111010001010"  # 368266
-    # p = "101111"  # 47
-
-    x = dec_int_to_bin_str(9223372036854775807)
-    p = dec_int_to_bin_str(47)
+def count_modulo(x_dec, p):
+    x = dec_int_to_bin_str(x_dec)
+    # p = dec_int_to_bin_str(p_dec)
 
     n = len(x)
     r = math.ceil(math.log2(int(p, 2)))
     k = math.ceil(n / r)
 
-    print(f"x: {x}")
-    print(f"p: {p}")
-    print(f"n: {n}")
-    print(f"r: {r}")
-    print(f"k: {k}")
+    # print(f"x: {int(x, 2)}")
+    # print(f"p: {int(p, 2)}")
+    # print(f"n: {n}")
+    # print(f"r: {r}")
+    # print(f"k: {k}")
 
     if n < k * r:
         x = con(k, r, n, x)
 
     subvectors = split_to_subvectors(x, r, k)
-    for subvector in subvectors:
-        print(subvector)
 
     s = bin(calculate_sum(k, r, subvectors, int(p, 2)))[2:]
     s_temp = s
+
+    count_loops = 0
 
     while int(s_temp, 2) > 2 * int(p, 2):
 
@@ -76,21 +70,74 @@ def count_modulo():
 
         if n_temp < k_temp * r:
             s_temp = con(k_temp, r, n_temp, s_temp)
-        print(f"s_temp: {s_temp}")
 
         subvectors_temp = split_to_subvectors(s_temp, r, k_temp)
-        for subvector in subvectors_temp:
-            print(subvector)
 
         s_temp = bin(calculate_sum(k_temp, r, subvectors_temp, int(p, 2)))[2:]
+
+        count_loops += 1
 
     if int(p, 2) <= int(s_temp, 2):
         s = bin(int(s_temp, 2) - int(p, 2))[2:]
     else:
         s = s_temp
 
-    print(int(s, 2))
+    # print(f"s: {int(s, 2)}")
+    # print(f"count_loops: {count_loops}\n")
+    # zwraca wynik modulo i ilość iteracji
+    return int(s, 2), count_loops
 
 
 def test():
-    count_modulo()
+
+    num_of_bits = 64
+    sum_of_loops = []
+
+    # max_x = 0
+    # max_p = 0
+    # max_result = 0
+    # max_loops = 0
+
+    # pomiary dla p (uśrednione x)
+    f = open('result_for_p.txt', 'w')
+
+    index = 0
+    for i in range(2, num_of_bits + 1):  # p
+        print(i)
+        sum_of_loops.append(0)
+        for j in range(1, (pow(2, num_of_bits) - 1) + 1):  # x
+            result, loops = count_modulo(j, '1' * i)
+            sum_of_loops[index] += loops
+        f.write(str(i))
+        f.write('\t')
+        f.write(str(sum_of_loops[index] / (pow(2, num_of_bits))))
+        f.write('\n')
+        index += 1
+    f.close()
+
+    # for p in range(1, (pow(2, num_of_bits) - 1) + 1):
+    #     for x in range(2, (pow(2, num_of_bits) - 1) + 1):
+    #
+    #         result, loops = count_modulo(x, p)
+    #         sum_of_loops += loops
+    #         f.writelines(lines)
+    #
+    #         if result > max_loops:
+    #             max_x = x
+    #             max_p = p
+    #             max_result = result
+    #             max_loops = loops
+
+    # results.append([x, p, result, loops])
+
+    # for result in results:
+    #     if result[3] > max_loops:
+    #         max_x = result[0]
+    #         max_p = result[1]
+    #         max_result = result[2]
+    #         max_loops = result[3]
+
+    # print(f"max_x: {max_x}")
+    # print(f"max_p: {max_p}")
+    # print(f"max_result: {max_result}")
+    # print(f"max_loops: {max_loops}")
