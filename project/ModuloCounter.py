@@ -39,9 +39,9 @@ def dec_int_to_bin_str(decimal):
     return binary
 
 
-def count_modulo(x_dec, p):
+def count_modulo(x_dec, p_dec):
     x = dec_int_to_bin_str(x_dec)
-    # p = dec_int_to_bin_str(p_dec)
+    p = dec_int_to_bin_str(p_dec)
 
     n = len(x)
     r = math.ceil(math.log2(int(p, 2)))
@@ -93,25 +93,24 @@ def test():
     num_of_bits = 64
     sum_of_loops = []
 
-    # max_x = 0
-    # max_p = 0
-    # max_result = 0
-    # max_loops = 0
+    max_x = 0
+    max_p = 0
+    max_result = 0
+    max_loops = 0
 
-    # pomiary dla p (uśrednione x)
-    f = open('result_for_p.txt', 'w')
+    f = open('pomiary.txt', 'w')
 
     index = 0
-    for i in range(2, num_of_bits + 1):  # p
-        print(i)
-        sum_of_loops.append(0)
-        for j in range(1, (pow(2, num_of_bits) - 1) + 1):  # x
-            result, loops = count_modulo(j, '1' * i)
-            sum_of_loops[index] += loops
-        f.write(str(i))
-        f.write('\t')
-        f.write(str(sum_of_loops[index] / (pow(2, num_of_bits))))
-        f.write('\n')
+    for i in range(pow(2, 20) - 1, pow(2, 80)):
+        for j in range(pow(2, 20) - 1, pow(2, 80)):
+
+            result, loops = count_modulo(i, j)
+            # if result > max_loops:
+            #     f.write(str(i))
+            #     f.write('\t')
+            #     f.write(str(sum_of_loops[index] / (pow(2, num_of_bits))))
+            #     f.write('\n')
+
         index += 1
     f.close()
 
