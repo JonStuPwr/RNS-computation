@@ -1,9 +1,8 @@
-from project.ModuloCounter import ModuloCounter
+from project.ModuloCounter import test
 
 
 def main():
-    moduloCounter = ModuloCounter()
-    moduloCounter.start()
+    test()
 
 
 if __name__ == '__main__':
