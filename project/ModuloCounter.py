@@ -47,8 +47,8 @@ def count_modulo(x_dec, p_dec):
     r = math.ceil(math.log2(int(p, 2)))
     k = math.ceil(n / r)
 
-    # print(f"x: {int(x, 2)}")
-    # print(f"p: {int(p, 2)}")
+    print(f"x: {int(x, 2)}")
+    print(f"p: {int(p, 2)}")
     # print(f"n: {n}")
     # print(f"r: {r}")
     # print(f"k: {k}")
@@ -63,7 +63,7 @@ def count_modulo(x_dec, p_dec):
 
     count_loops = 0
 
-    while int(s_temp, 2) > 2 * int(p, 2):
+    while int(s_temp, 2) >= 2 * int(p, 2):
 
         n_temp = len(s_temp)
         k_temp = math.ceil(n_temp / r)
@@ -82,8 +82,8 @@ def count_modulo(x_dec, p_dec):
     else:
         s = s_temp
 
-    # print(f"s: {int(s, 2)}")
-    # print(f"count_loops: {count_loops}\n")
+    print(f"s: {int(s, 2)}")
+    print(f"count_loops: {count_loops}\n")
     # zwraca wynik modulo i ilość iteracji
     return int(s, 2), count_loops
 
@@ -101,10 +101,10 @@ def test():
     f = open('pomiary.txt', 'w')
 
     index = 0
-    for i in range(pow(2, 20) - 1, pow(2, 80)):
-        for j in range(pow(2, 20) - 1, pow(2, 80)):
+    for i in range(pow(2, 2) - 1, pow(2, 5)):
+        for j in range(pow(1, 2) - 1, pow(2, 5)):
 
-            result, loops = count_modulo(i, j)
+            result, loops = count_modulo(j, i)
             # if result > max_loops:
             #     f.write(str(i))
             #     f.write('\t')
