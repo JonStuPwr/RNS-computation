@@ -1,4 +1,4 @@
-from project.ModuloCounter import test
+from project.ModuloCounter import test, interface
 
 
 def main():
