@@ -30,11 +30,20 @@ def split_to_subvectors(binary_str, subvector_length, num_of_subvectors):
     return subvectors
 
 
-# liczy sumę "s", zwraca wynik w postaci decymalnej (int)
-def calculate_sum(num_of_subvectors, subvector_length, subvectors, p):
+# liczy "s_temp" w pierwszej iteracji dla mnożenia, zwraca wynik w postaci decymalnej (int)
+def calculate_mul(k, r, p, a_subvectors, b_subvectors):
     result = 0
-    for i in range(num_of_subvectors):
-        result += int(subvectors[i], 2) * pow(2, subvector_length * ((i + 1) - 1), p)
+    for i in range(k):
+        for j in range(k):
+            result += (int(a_subvectors[i], 2) * int(b_subvectors[j], 2) * pow(2, r * ((i + 1) + (j + 1) - 2))) % p
+    return result
+
+
+# liczy "s_temp", w kolejnych iteracjach dla funkcji modulo zwraca wynik w postaci decymalnej (int)
+def calculate_modulo(k, r, subvectors, p):
+    result = 0
+    for i in range(k):
+        result += (int(subvectors[i], 2) * pow(2, r * ((i + 1) - 1))) % p
     return result
 
 
@@ -89,34 +98,37 @@ def count_modulo_multiplication(a_dec, b_dec, p_dec, r):
     for subvector in b_subvectors:
         print(subvector)
 
-    # s = bin(calculate_sum(k, r, subvectors, int(p, 2)))[2:]
-    # s_temp = s
-    #
-    # count_loops = 0
-    #
-    # while int(s_temp, 2) >= 2 * int(p, 2):
-    #
-    #     n_temp = len(s_temp)
-    #     k_temp = math.ceil(n_temp / r)
-    #
-    #     if n_temp < k_temp * r:
-    #         s_temp = con(k_temp, r, n_temp, s_temp)
-    #
-    #     subvectors_temp = split_to_subvectors(s_temp, r, k_temp)
-    #
-    #     s_temp = bin(calculate_sum(k_temp, r, subvectors_temp, int(p, 2)))[2:]
-    #
-    #     count_loops += 1
-    #
-    # if int(p, 2) <= int(s_temp, 2):
-    #     s = bin(int(s_temp, 2) - int(p, 2))[2:]
-    # else:
-    #     s = s_temp
-    #
-    # # print(f"S: {int(s, 2)}")
-    # # print(f"count_loops: {count_loops}\n")
-    # # zwraca wynik modulo i ilość iteracji
-    # return count_loops
+    s = bin(calculate_mul(k, r, int(p, 2), a_subvectors, b_subvectors))[2:]
+    s_temp = s
+
+    print(f"S_temp: {int(s_temp, 2)}")
+
+    count_loops = 0
+
+    while int(s_temp, 2) >= 2 * int(p, 2):
+
+        r = 3
+        n_temp = len(s_temp)
+        k_temp = math.ceil(n_temp / r)
+
+        if n_temp < k_temp * r:
+            s_temp = con(k_temp, r, n_temp, s_temp)
+
+        subvectors_temp = split_to_subvectors(s_temp, r, k_temp)
+
+        s_temp = bin(calculate_modulo(k_temp, r, subvectors_temp, int(p, 2)))[2:]
+
+        print(f"S_temp: {int(s_temp, 2)}")
+
+        count_loops += 1
+
+    if int(p, 2) <= int(s_temp, 2):
+        s = bin(int(s_temp, 2) - int(p, 2))[2:]
+    else:
+        s = s_temp
+
+    print(f"S: {int(s, 2)}")
+    print(f"count_loops: {count_loops}\n")
 
 
 def interface():
