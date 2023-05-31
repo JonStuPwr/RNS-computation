@@ -1,9 +1,9 @@
-from project.ModuloFunction import test
-from project.ModuloMultiplication import interface
+from project.ModuloFunction import interface_mod
+from project.ModuloMultiplication import interface_mul
 
 
 def main():
-    interface()
+    interface_mul()
 
 
 if __name__ == '__main__':
