@@ -16,6 +16,8 @@ def calc_mod_multiplication(A_dec, B_dec, P_dec, r):
 
     k = math.ceil(n / r)
 
+    create_truth_tables_s_temp(k, r, P_dec)
+
     if n_A < k * r:
         A = concat(k, r, n_A, A)
 
@@ -31,6 +33,8 @@ def calc_mod_multiplication(A_dec, B_dec, P_dec, r):
     count_loops = 0
 
     while S_temp >= 2 * P_dec:
+
+        create_truth_tables_s_temp_2(k, r, P_dec)
 
         S_temp = dec_to_bin(S_temp)
 
@@ -54,10 +58,13 @@ def calc_mod_multiplication(A_dec, B_dec, P_dec, r):
     print(f"S: {S}")
     print(f"loops: {count_loops}\n")
 
+    return count_loops
+
 
 def interface_mul():
     a = int(input("Podaj A: "))
     b = int(input("Podaj B: "))
     p = int(input("Podaj P: "))
-    r = int(input("Ile bitów w podwektorze: "))
+    r = int(input("Ile bitów w podwektorze [2, 3, 4]: "))
+
     calc_mod_multiplication(a, b, p, r)

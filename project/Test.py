@@ -244,3 +244,34 @@ def test():
         f.write('\n')
 
     f.close()
+
+    # p = 13
+    # r = 4
+    # max_loops = 0
+    #
+    # f = open('test.txt', 'w')
+    # for a_b_len in range(1, 9, 1):
+    #     print(a_b_len)
+    #     # max_x = 0
+    #     # max_p = 0
+    #     for i in range(0, 100001, 1):
+    #         a_bit = generate_random_bit_sequence(a_b_len)
+    #         b_bit = generate_random_bit_sequence(a_b_len)
+    #         loops = calc_mod_multiplication(a_bit, b_bit, p, r)
+    #
+    #         if loops >= max_loops:
+    #             max_loops = loops
+    #             f.write(str(a_bit))
+    #             f.write('\t')
+    #             f.write(str(b_bit))
+    #             f.write('\t')
+    #             f.write(str(max_loops))
+    #             f.write('\n')
+
+        # f.write(str(max_x))
+        # f.write('\t')
+        # f.write(str(max_p))
+        # f.write('\t')
+        # f.write(str(max_loops))
+        # f.write('\n')
+    # f.close()
